@@ -1,0 +1,85 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>Try Tracker</title>
+    
+    <link href="TryTracker_files/style.css" rel="stylesheet">
+	
+	<script type="text/javascript">
+	var xmlhttp;
+	function loadXMLDoc(url)
+	{
+	  xmlhttp=null;
+	  if (window.XMLHttpRequest)
+	  {// code for Firefox, Opera, IE7, etc.
+		xmlhttp=new XMLHttpRequest();
+	  }
+	  else if (window.ActiveXObject)
+	  {// code for IE6, IE5
+	    xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+	  }
+	  if (xmlhttp!=null)
+	  {
+	    xmlhttp.onreadystatechange=state_Change;
+	    xmlhttp.open("GET",url + "?cmd=" + document.getElementById('input').value,true);
+	    xmlhttp.send(null);
+	  }
+	  else
+	  {
+	    alert("Your browser does not support XMLHTTP.");
+	  }
+	}
+
+	function state_Change()
+	{
+	  if (xmlhttp.readyState==4)
+	  {// 4 = "loaded"
+	    if (xmlhttp.status==200)
+		{// 200 = "OK"
+		  document.getElementById('log').innerHTML=xmlhttp.responseText + "<br />" + document.getElementById('input').value;
+		}
+	    else
+	    {
+		  alert("Problem retrieving data:" + xmlhttp.statusText);
+	    }
+	  }
+	}
+	</script>
+
+  </head>
+  <body>
+    <div id="header">
+      <img src="TryTracker_files/try-redis-500x50.png" height="50" width="500">
+    </div>
+    <div id="log">
+      <div class="line notification">
+        <p>Welcome to <strong>Try Tracker</strong>, a demonstration of the
+        <a href="http://redis.io/">Tracker</a> database!</p>
+        
+        <p>Please type <a href="#run">TUTORIAL</a> to begin a brief tutorial, <a href="#run">HELP</a> to see a list of supported
+        commands, or any valid Tracker command to play with the database.</p>
+      </div>
+    </div>
+    <div style="display: block;" id="toolbar">	
+      <input id="input" type="text" name="cmd" onkeydown='if(event.keyCode==13){enter.click()}'>
+	  <button id="enter" onclick="loadXMLDoc('TryTracker_files/result.txt')">Enter</button>	
+    </div>
+	
+		  
+	
+    <div id="footer">
+      <p>This page was written by Alex McHale
+      (<a href="mailto:alexmchale@gmail.com">email</a>
+       <a href="https://github.com/alexmchale">github</a>
+       <a href="https://twitter.com/alexmchale">twitter</a>)
+      and inspired by <a href="http://try.mongodb.org/">Try Mongo</a>
+	  & <a href="try.redis.io">Try Redis</a>.</p>
+      <p>It's hosted by Mingshan Lei
+      (<a href="https://github.com/leimingshan">github</a>)</p>
+      
+      <p>The source code to Try Tracker is available on
+      <a href="http://github.com/leimingshan/tracker">GitHub</a>.</p>
+    </div>
+
+  
+
+</body></html>
