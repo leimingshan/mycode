@@ -105,7 +105,7 @@ template <class T> void BiTree<T>::Create(Node<T> *&R,T* buf,int i)
 //销毁二叉树 
 template <class T> void BiTree<T>::Destroy(Node<T> *R) 
 { 
-	if(!R)
+	if (!R)
 		return;
 
 	if (R->lch)
@@ -136,19 +136,19 @@ void BiTree<T>::GetPath(T x,Node<T>*R)
 
 	static bool w=false;
 	static Queue<char> Queue[100];
-	if(R->data!=x) 
+	if (R->data!=x) 
 	{ 
-		if(w==false) 
+		if (w==false) 
 			Queue[r++].data=R->data;
-		if(R->lch!=NULL) 
+		if (R->lch!=NULL) 
 			GetPath(x,R->lch);
 
-		if(w==false)
-			if(R->rch!=NULL) 
+		if (w==false)
+			if (R->rch!=NULL) 
 				GetPath(x,R->rch);
 
-		if(w==true) {
-			if(f!=r) 
+		if (w==true) {
+			if (f!=r) 
 				cout<<Queue[f++].data<<"->";
 		}
 		else 
@@ -216,7 +216,7 @@ template <class T> int BiTree<T>::GetDepth(Node<T> *R,int d)
 template <class T> void BiTree<T>::Preorder(Node<T> *R) 
 { 
 	Stack<Node<T>*> S;
-	while(!S.IsEmpty() || (R!=NULL)) 
+	while (!S.IsEmpty() || (R!=NULL)) 
 	{ 
 		if (R!=NULL) //如果根节点不是空指针则输出其data域并将data只想左孩子直到将左孩子遍历完再遍历右孩子
 		{ 
@@ -235,7 +235,7 @@ template <class T> void BiTree<T>::Preorder(Node<T> *R)
 template <class T> void BiTree<T>::Inorder(Node<T> *R) 
 { 
 	Stack<Node<T>*> S;
-	while(!S.IsEmpty() || (R!=NULL)) 
+	while (!S.IsEmpty() || (R!=NULL)) 
 	{ 
 		if (R!=NULL)  
 		{      
@@ -266,7 +266,7 @@ template <class T> void BiTree<T>::Postorder(Node<T> *R)
 template <class T> void BiTree<T>::Levelorder(Node<T> *R) 
 { 
 	Queue<Node<T>*> Q;
-	while(!Q.IsEmpty() || (R!=NULL)) 
+	while (!Q.IsEmpty() || (R!=NULL)) 
 	{ 
 		if (R!=NULL) 
 		{ 
@@ -377,10 +377,8 @@ template <class T> T Queue<T>::DelQueue()
  
 template <class T> Queue<T>::~Queue() 
 { 
-	while(Front!=Rear) 
-	{ 
+	while (Front!=Rear) 
 		cout<<DelQueue()<<endl;
-	} 
 }   
  
  
