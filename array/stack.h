@@ -8,21 +8,21 @@ struct stack
 	int stack_size;
 };
 
-//¶¨ÒåÒ»Ğ©Õ»µÄ²Ù×÷
-//Õ»µÄ³õÊ¼»¯
+//å®šä¹‰ä¸€äº›æ ˆçš„æ“ä½œ
+//æ ˆçš„åˆå§‹åŒ–
 int init_stack(struct stack *s);
 
-//ÈëÕ»²Ù×÷
+//å…¥æ ˆæ“ä½œ
 int push(struct stack *s, int e);
 
-//ÅĞ¶ÏÕ»ÊÇ·ñÎª¿Õ
+//åˆ¤æ–­æ ˆæ˜¯å¦ä¸ºç©º
 int is_empty(struct stack *s);
 
-//³öÕ»²Ù×÷
+//å‡ºæ ˆæ“ä½œ
 int pop(struct stack *s);
 
-//·µ»ØÕ»¶¨ÔªËØµÄÖµ
+//è¿”å›æ ˆå®šå…ƒç´ çš„å€¼
 int get_top(struct stack *s);
 
-//Êä³öÕ»
+//è¾“å‡ºæ ˆ
 void print_stack(struct stack *s);

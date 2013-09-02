@@ -15,12 +15,12 @@ int init_stack(struct stack *s)
 int push(struct stack *s, int e)
 {
 	if (s->top - s->base >= s->stack_size) {
-		//Õ»Âú£¬×·¼Ó´æ´¢¿Õ¼ä
+		
 		s->base = (int *)realloc(s->base,
 			(s->stack_size + STACK_INCREMENT) * sizeof(int));
 		if (!s->base) {
 			printf("Memory realloc failed!\n");
-			exit(1); //´æ´¢·ÖÅäÊ§°Ü
+			exit(1);
 		}
 		s->top = s->base + s->stack_size;
 		s->stack_size += STACK_INCREMENT;

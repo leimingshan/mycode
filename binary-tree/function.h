@@ -25,34 +25,34 @@ template <class T> class BiTree
 { 
 public: 
     Node<T> *root;
-                BiTree():root(NULL){} 
+    BiTree():root(NULL){} 
     Node<T>*& Root();
-                void Create(Node<T>* &R,T* buf,int i);//¶ş²æÊ÷µÄ´´½¨
-    void Destroy(Node<T> *R);//¶ş²æÊ÷µÄÏú»Ù
+    void Create(Node<T>* &R,T* buf,int i);//äºŒå‰æ ‘çš„åˆ›å»º
+    void Destroy(Node<T> *R);//äºŒå‰æ ‘çš„é”€æ¯
     void Print(T e);
     ~BiTree();
     int Search(Node<T> *R,T e,Node<T> *&p);
  
-    int LeafNodeCount(Node<T> *R);//Ò¶×Ó½Úµã 
-    int NodeCount(Node<T> *R);//½ÚµãÊıÄ¿
-    int GetDepth(Node<T> *R,int d);//Ê÷µÄÉî¶È/
+    int LeafNodeCount(Node<T> *R);//å¶å­èŠ‚ç‚¹ 
+    int NodeCount(Node<T> *R);//èŠ‚ç‚¹æ•°ç›®
+    int GetDepth(Node<T> *R,int d);//æ ‘çš„æ·±åº¦/
     Node<T>* GetRoot() { return Root;}  
-    void GetPath(T x,Node<T>*R);//Â·¾¶
-    void Levelorder(Node<T> *R);//²ãĞò±éÀú
-    void Preorder(Node<T> *R);//Ç°Ğò±éÀú
-    void Inorder(Node<T> *R);//ÖĞĞò±éÀú
-    void Postorder(Node<T> *R);//ºóĞò±éÀú 
-    void Create(Node<T>* &R,T* PreBuf, int &i,T* InBuf,int b,int e);//´´½¨¶ş²æÊ÷
+    void GetPath(T x,Node<T>*R);//è·¯å¾„
+    void Levelorder(Node<T> *R);//å±‚åºéå†
+    void Preorder(Node<T> *R);//å‰åºéå†
+    void Inorder(Node<T> *R);//ä¸­åºéå†
+    void Postorder(Node<T> *R);//ååºéå† 
+    void Create(Node<T>* &R,T* PreBuf, int &i,T* InBuf,int b,int e);//åˆ›å»ºäºŒå‰æ ‘
 };
 
-template <class T> class Stack { //Õ»
+template <class T> class Stack { //æ ˆ
 public: 
 	Stack ():Top(NULL){} 
-	int IsEmpty();//ÅĞ¶ÏÕ»ÊÇ·ñÎª¿Õ
-	T GetTop();//²éÕÒÕ»¶¥ÔªËØ
-	void Push(T);//ÈëÕ»²Ù×÷
-	T Pop();//³öÕ»²Ù×÷
-	~Stack();//Îö¹¹º¯Êı
+	int IsEmpty();//åˆ¤æ–­æ ˆæ˜¯å¦ä¸ºç©º
+	T GetTop();//æŸ¥æ‰¾æ ˆé¡¶å…ƒç´ 
+	void Push(T);//å…¥æ ˆæ“ä½œ
+	T Pop();//å‡ºæ ˆæ“ä½œ
+	~Stack();//ææ„å‡½æ•°
 
 protected: 
 	struct Node { 
@@ -62,16 +62,16 @@ protected:
 	Node *Top;
 };
 
-template <class T> class Queue //¶ÓÁĞ
+template <class T> class Queue //é˜Ÿåˆ—
 { 
 public: 
-    Queue();//¹¹Ôìº¯Êı
-    int IsEmpty();//ÅĞÊÇ·ñÎª¿Õ
-    void EnQueue(T);//Èë¶Ó
-    T DelQueue();//³ö¶Ó
-    T GetFront();//²éÕÒ¶ÔÍ·ÔªËØ
+    Queue();//æ„é€ å‡½æ•°
+    int IsEmpty();//åˆ¤æ˜¯å¦ä¸ºç©º
+    void EnQueue(T);//å…¥é˜Ÿ
+    T DelQueue();//å‡ºé˜Ÿ
+    T GetFront();//æŸ¥æ‰¾å¯¹å¤´å…ƒç´ 
     ~Queue();
-     T data;
+    T data;
 protected: 
     struct Node 
     { 
@@ -88,33 +88,33 @@ template <class T> Node<T>*& BiTree<T>::Root()
 	return root;
 } 
 
-//Ê¹ÓÃË³Ğò½á¹¹´æ´¢µÄÊı¾İ½¨Á¢¶ş²æÁ´±íÊ÷ 
+//ä½¿ç”¨é¡ºåºç»“æ„å­˜å‚¨çš„æ•°æ®å»ºç«‹äºŒå‰é“¾è¡¨æ ‘ 
 template <class T> void BiTree<T>::Create(Node<T> *&R,T* buf,int i) 
 { 
 	if (buf[i-1]==0) 
 		R = NULL;
 	else 
 	{ 
-		R=new Node<T>;//´´½¨¸ù½áµã
-		R->data = buf[i-1];//i±íÊ¾Î»ÖÃ´Ó1¿ªÊ¼
-		Create(R->lch, buf, 2*i);//´´½¨×ó×ÓÊ÷£¬µİ¹éµ÷ÓÃ
-		Create(R->rch, buf, 2*i+1);//´´½¨ÓÒ×ÓÊ÷£¬µİ¹éµ÷ÓÃ
+		R=new Node<T>;//åˆ›å»ºæ ¹ç»“ç‚¹
+		R->data = buf[i-1];//iè¡¨ç¤ºä½ç½®ä»1å¼€å§‹
+		Create(R->lch, buf, 2*i);//åˆ›å»ºå·¦å­æ ‘ï¼Œé€’å½’è°ƒç”¨
+		Create(R->rch, buf, 2*i+1);//åˆ›å»ºå³å­æ ‘ï¼Œé€’å½’è°ƒç”¨
 	} 
 } 
 
-//Ïú»Ù¶ş²æÊ÷ 
+//é”€æ¯äºŒå‰æ ‘ 
 template <class T> void BiTree<T>::Destroy(Node<T> *R) 
 { 
 	if(!R)
 		return;
 
 	if (R->lch)
-		Destroy( R->lch);			// Èô´æÔÚ×óº¢×Ó£¬ÏÈÉ¾³ı×óº¢×Ó
+		Destroy( R->lch);			// è‹¥å­˜åœ¨å·¦å­©å­ï¼Œå…ˆåˆ é™¤å·¦å­©å­
 	if (R->rch)
-		Destroy(R->rch);			// Èô´æÔÚÓÒº¢×Ó£¬ÏÈÉ¾³ıÓÒº¢×Ó
+		Destroy(R->rch);			// è‹¥å­˜åœ¨å³å­©å­ï¼Œå…ˆåˆ é™¤å³å­©å­
 
-	cout<<"É¾³ı½Úµã£º"<< R->data<< endl;
-	delete R;						// ×óÓÒº¢×Ó¶¼É¾³ıºó£¬×îºóÉ¾³ı¸Ã½Úµã
+	cout<<"åˆ é™¤èŠ‚ç‚¹ï¼š"<< R->data<< endl;
+	delete R;						// å·¦å³å­©å­éƒ½åˆ é™¤åï¼Œæœ€ååˆ é™¤è¯¥èŠ‚ç‚¹
 	R = NULL;
 }
 
@@ -128,7 +128,7 @@ template <class T> BiTree<T>::~BiTree()
 	Destroy(root);
 } 
  
-//ÇóÂ·¾¶³¤¶È
+//æ±‚è·¯å¾„é•¿åº¦
 template <class T> 
 void BiTree<T>::GetPath(T x,Node<T>*R) 
 { 
@@ -156,12 +156,12 @@ void BiTree<T>::GetPath(T x,Node<T>*R)
 	} 
 	else
 	{ 
-		cout<<"ÓÉ¸ù½Úµãµ½Ö¸¶¨½Úµã"<<R->data<<"µÄÂ·¾¶³¤¶ÈÊÇ:"<<r+1<<endl<<"Â·¾¶ÊÇ:";
+		cout<<"ç”±æ ¹èŠ‚ç‚¹åˆ°æŒ‡å®šèŠ‚ç‚¹"<<R->data<<"çš„è·¯å¾„é•¿åº¦æ˜¯:"<<r+1<<endl<<"è·¯å¾„æ˜¯:";
 		w=true;
 	} 
 }
 
-//²éÑ¯Ê÷ÖĞµÄ½áµã 
+//æŸ¥è¯¢æ ‘ä¸­çš„ç»“ç‚¹ 
 //template <class T>    int BiTree<T>::Search(Node<T> *R,T e, Node<T> *&p) 
 //{ 
 //  if (R!=NULL) 
@@ -174,7 +174,7 @@ void BiTree<T>::GetPath(T x,Node<T>*R)
 //  } 
 //  return 0;
 //} 
-//ÇóÊ÷µÄÒ¶½áµãÊı 
+//æ±‚æ ‘çš„å¶ç»“ç‚¹æ•° 
 template <class T> int BiTree<T>::LeafNodeCount(Node<T> *R) 
 { 
 	if (R==NULL) return 0;
@@ -184,10 +184,10 @@ template <class T> int BiTree<T>::LeafNodeCount(Node<T> *R)
 	{ 
 		int n=LeafNodeCount(R->lch); 
 		int m=LeafNodeCount(R->rch);
-		return m+n;//×ó×ÓÊ÷½áµã¼ÓÓÒ×ÓÊ÷½áµã
+		return m+n;//å·¦å­æ ‘ç»“ç‚¹åŠ å³å­æ ‘ç»“ç‚¹
 	} 
 } 
-//ÇóÊ÷µÄ½áµã×ÜÊı 
+//æ±‚æ ‘çš„ç»“ç‚¹æ€»æ•° 
 template <class T> int BiTree<T>::NodeCount(Node<T> *R) 
 { 
 	if (R==NULL) return 0;
@@ -195,10 +195,10 @@ template <class T> int BiTree<T>::NodeCount(Node<T> *R)
 	{ 
 		int m=NodeCount(R->lch);
 		int n=NodeCount(R->rch);
-		return m+n+1;//×ó×ÓÊ÷¼ÓÓÒ×ÓÊ÷½áµãÔÙ¼Ó¸ù½Úµã
+		return m+n+1;//å·¦å­æ ‘åŠ å³å­æ ‘ç»“ç‚¹å†åŠ æ ¹èŠ‚ç‚¹
 	} 
 } 
-//ÇóÊ÷µÄÉî¶È 
+//æ±‚æ ‘çš„æ·±åº¦ 
 template <class T> int BiTree<T>::GetDepth(Node<T> *R,int d) 
 { 
     if (R==NULL) return d;
@@ -208,17 +208,17 @@ template <class T> int BiTree<T>::GetDepth(Node<T> *R,int d)
     { 
 		int m = GetDepth(R->lch,d+1);
 		int n = GetDepth(R->rch,d+1);
-		return n>m? n:m;//´Ó×óËãºÍ´ÓÓÒËã·µ»ØÉî¶È´óµÄÄÇ¸ö
+		return n>m? n:m;//ä»å·¦ç®—å’Œä»å³ç®—è¿”å›æ·±åº¦å¤§çš„é‚£ä¸ª
     } 
 } 
 
-//·Çµİ¹éÏÈĞò±éÀú 
+//éé€’å½’å…ˆåºéå† 
 template <class T> void BiTree<T>::Preorder(Node<T> *R) 
 { 
 	Stack<Node<T>*> S;
 	while(!S.IsEmpty() || (R!=NULL)) 
 	{ 
-		if (R!=NULL) //Èç¹û¸ù½Úµã²»ÊÇ¿ÕÖ¸ÕëÔòÊä³öÆädataÓò²¢½«dataÖ»Ïë×óº¢×ÓÖ±µ½½«×óº¢×Ó±éÀúÍêÔÙ±éÀúÓÒº¢×Ó
+		if (R!=NULL) //å¦‚æœæ ¹èŠ‚ç‚¹ä¸æ˜¯ç©ºæŒ‡é’ˆåˆ™è¾“å‡ºå…¶dataåŸŸå¹¶å°†dataåªæƒ³å·¦å­©å­ç›´åˆ°å°†å·¦å­©å­éå†å®Œå†éå†å³å­©å­
 		{ 
 			Print(R->data);
 			S.Push(R);
@@ -231,7 +231,7 @@ template <class T> void BiTree<T>::Preorder(Node<T> *R)
 		} 
 	} 
 } 
-//·Çµİ¹éÖĞĞò±éÀú 
+//éé€’å½’ä¸­åºéå† 
 template <class T> void BiTree<T>::Inorder(Node<T> *R) 
 { 
 	Stack<Node<T>*> S;
@@ -252,7 +252,7 @@ template <class T> void BiTree<T>::Inorder(Node<T> *R)
 
 } 
   
-//µİ¹éµ÷ÓÃµÄºóĞò±éÀú
+//é€’å½’è°ƒç”¨çš„ååºéå†
 template <class T> void BiTree<T>::Postorder(Node<T> *R) 
 { 
 	if (R!=NULL) { 
@@ -262,7 +262,7 @@ template <class T> void BiTree<T>::Postorder(Node<T> *R)
 	} 
 }
 
-//µİ¹éµ÷ÓÃ±éÀú²ãĞò±éÀú
+//é€’å½’è°ƒç”¨éå†å±‚åºéå†
 template <class T> void BiTree<T>::Levelorder(Node<T> *R) 
 { 
 	Queue<Node<T>*> Q;
@@ -278,7 +278,7 @@ template <class T> void BiTree<T>::Levelorder(Node<T> *R)
 	} 
 } 
   
-//ÀûÓÃÏÈĞò±éÀúºÍºóĞò±éÀúĞòÁĞÉú³É¶ş²æÊ÷ 
+//åˆ©ç”¨å…ˆåºéå†å’Œååºéå†åºåˆ—ç”ŸæˆäºŒå‰æ ‘ 
 template <class T> int Stack<T>::IsEmpty() 
 { 
 	if (Top==NULL) 
@@ -308,7 +308,7 @@ template <class T> T Stack<T>::Pop()
 { 
 	T t;
 	if (Top==NULL)     
-		cout<<"Õ»¿Õ£¬Òç³ö"<<endl;
+		cout<<"æ ˆç©ºï¼Œæº¢å‡º"<<endl;
 	else { 
 		t=Top->data;
 		Node *s=Top;
@@ -362,7 +362,7 @@ template <class T> T Queue<T>::DelQueue()
 { 
 	T t=NULL;
 	if (Front==Rear)  
-		cout<<"¶ÓÁĞ¿Õ£¬ÎŞÔªËØ³ö¶Ó!"<<endl;
+		cout<<"é˜Ÿåˆ—ç©ºï¼Œæ— å…ƒç´ å‡ºé˜Ÿ!"<<endl;
 	else 
 	{ 
 		Node *s=Front->next;
