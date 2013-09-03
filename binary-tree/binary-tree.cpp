@@ -7,8 +7,8 @@ using namespace std;
 //Define binary tree node
 struct TreeNode {
     int value;
-    struct TreeNode *lchild;
-    struct TreeNode *rchild;
+    struct TreeNode *left;
+    struct TreeNode *right;
 };
 
 //hash for inorder traverse
@@ -30,8 +30,8 @@ struct TreeNode* buildInorderPreorder(int pre[], int n, int offset)
 
     struct TreeNode* root = new (struct TreeNode);
     root->value = rootVal;
-    root->lchild = buildInorderPreorder(pre+1, i, offset);
-    root->rchild = buildInorderPreorder(pre+i+1, n-i-1, offset+i+1);
+    root->left = buildInorderPreorder(pre+1, i, offset);
+    root->right = buildInorderPreorder(pre+i+1, n-i-1, offset+i+1);
     return root;
 }
 //根据后序遍历和中序遍历构建二叉树
@@ -42,8 +42,8 @@ struct TreeNode *buildInorderPostorder(int post[], int n, int offset)
     int i = mapIndex[rootVal] - offset;  // the divider's index
 
     struct TreeNode* root = new (struct TreeNode);
-    root->lchild = buildInorderPostorder(post, i, offset);
-    root->rchild = buildInorderPostorder(post+i, n-i-1, offset+i+1);
+    root->left = buildInorderPostorder(post, i, offset);
+    root->right = buildInorderPostorder(post+i, n-i-1, offset+i+1);
     return root;
 }
 
@@ -54,8 +54,8 @@ void preOrder(TreeNode *root)
     if (root == NULL)
         return;
     cout << root->value << ' ';
-    preOrder(root->lchild);
-    preOrder(root->rchild);
+    preOrder(root->left);
+    preOrder(root->right);
 }
 
 void preOrderNonRecursive(TreeNode *root)
@@ -69,11 +69,11 @@ void preOrderNonRecursive(TreeNode *root)
         //visit the node
         cout << temp->value << ' ';
         s.pop();
-        //watch out!!! push rchild first and then lchild
-        if (temp->rchild != NULL)
-            s.push(temp->rchild);
-        if (temp->lchild != NULL)
-            s.push(temp->lchild);
+        //watch out!!! push right first and then left
+        if (temp->right != NULL)
+            s.push(temp->right);
+        if (temp->left != NULL)
+            s.push(temp->left);
     }
     cout << endl;
     return;
@@ -84,9 +84,9 @@ void inOrder(TreeNode *root)
 {
     if (root == NULL)
         return;
-    inOrder(root->lchild);
+    inOrder(root->left);
     cout << root->value << ' ';
-    inOrder(root->rchild);
+    inOrder(root->right);
 }
 
 void inOrderNonRecursive(TreeNode *root)
@@ -97,18 +97,18 @@ void inOrderNonRecursive(TreeNode *root)
 
     while (root != NULL) {
         s.push(root);
-        root = root->lchild;
+        root = root->left;
     }
 
     while (!s.empty()) {
         root = s.top();
         s.pop();
         cout << root->value << ' ';
-        root = root->rchild;
+        root = root->right;
 
         while (root != NULL) {
             s.push(root);
-            root = root->lchild;
+            root = root->left;
         }
     }
     cout << endl;
@@ -119,25 +119,27 @@ void postOrder(TreeNode *root)
 {
     if (root == NULL)
         return;
-    postOrder(root->lchild);
-    postOrder(root->rchild);
+    postOrder(root->left);
+    postOrder(root->right);
     cout << root->value << ' ';
 }
 
 void postOrderNonRecursive(TreeNode *root)
 {
     //this will be very easy if you use 2 stacks
-    if (!root) return;
+    if (!root) 
+        return;
+
     stack<TreeNode*> s, output;
     s.push(root);
     while (!s.empty()) {
         TreeNode *curr = s.top();
         output.push(curr);
         s.pop();
-        if (curr->lchild)
-            s.push(curr->lchild);
-        if (curr->rchild)
-            s.push(curr->rchild);
+        if (curr->left)
+            s.push(curr->left);
+        if (curr->right)
+            s.push(curr->right);
     }
     
     while (!output.empty()) {
@@ -151,6 +153,9 @@ void postOrderNonRecursive(TreeNode *root)
 //Print levels together
 void levelOrder(TreeNode *root)
 {
+    if (root == NULL)
+        return;
+
     TreeNode *node;
     queue<TreeNode *> q;
     q.push(root);
@@ -160,17 +165,37 @@ void levelOrder(TreeNode *root)
         q.pop();
         cout << node->value << ' '; //Visit(node);
 
-        if (node->lchild != NULL)
-            q.push(node->lchild);
-        if (node->rchild != NULL)
-            q.push(node->rchild);
+        if (node->left != NULL)
+            q.push(node->left);
+        if (node->right != NULL)
+            q.push(node->right);
     }
     cout << endl;
 }
 
 void levelOrderInLine(TreeNode *root)
 {
+    if (root == NULL)
+        return;
 
+    queue<TreeNode *> q;
+    TreeNode *end = root;
+    while (true) {
+        if (root->left != NULL)
+            q.push(root->left);
+        if (root->right != NULL)
+            q.push(root->right);
+
+        cout << root->value << ' ';
+        if (root == end) {
+            cout << endl;
+            if (q.empty())
+                break;
+            end = q.back();
+        }
+        root = q.front();
+        q.pop();
+    }
 }
 
 //Get binary tree node number
@@ -179,7 +204,7 @@ int getNodeNum(TreeNode *root)
     if (root == NULL)
         return 0;
 
-    return getNodeNum(root->lchild) + getNodeNum(root->rchild);
+    return getNodeNum(root->left) + getNodeNum(root->right) + 1;
 }
 
 //Get tree depth
@@ -187,13 +212,45 @@ int getDepth(TreeNode *root)
 {
     if (root == NULL)
         return 0;
-    int ldepth = getDepth(root->lchild);
-    int rdepth = getDepth(root->rchild);
+    int ldepth = getDepth(root->left);
+    int rdepth = getDepth(root->right);
 
     return ldepth > rdepth ? (ldepth + 1) : (rdepth + 1);
 }
 
-//
+//Get Kth level node number
+int getKthLevelNodeNum(TreeNode *root, int k)
+{
+    if (root == NULL || k < 1)
+        return 0;
+    if (k == 1)
+        return 1;
+    int numLeft = getKthLevelNodeNum(root->left, k - 1);
+    int numRight = getKthLevelNodeNum(root->right, k - 1);
+    return numLeft + numRight;
+}
+
+//Get leaf node number
+int getLeafNodeNum(TreeNode *root)
+{
+    if (root == NULL)
+        return 0;
+    if (root->left == NULL && root->right == NULL)
+        return 1;
+    return getLeafNodeNum(root->left) + getLeafNodeNum(root->right);
+}
+
+//Compare two binary trees if they have the same structure(ignor value)
+bool cmpTreeStructure(TreeNode *root1, TreeNode *root2)
+{
+    if (root1 == NULL && root2 == NULL)
+        return true;
+    else if (root1 == NULL || root2 == NULL)
+        return false;
+
+    return cmpTreeStructure(root1->left, root2->left) && cmpTreeStructure(root1->right, root2->right);
+}
+
 
 //Test all of the functions above
 int main()
@@ -204,7 +261,15 @@ int main()
     mapToIndices(in, n);
 
     struct TreeNode* root = buildInorderPreorder(pre, n, 0);
-
+    //Sample display
+    cout << "The BinaryTree used in this program is:" << endl;
+    cout << "              7    " << endl
+         << "            /   \\ " << endl
+         << "          10     2 " << endl
+         << "          /\\    / " << endl
+         << "         4 3   8 "   << endl
+         << "            \\  /"   <<endl
+         << "            1 11"  << endl;
     //Traverse
     cout << "PreOrder:" <<endl;
     preOrder(root);
@@ -223,7 +288,12 @@ int main()
 
     cout << "LevelOrder:" << endl;
     levelOrder(root);
+    cout << "LevelOrderInLine:" << endl;
+    levelOrderInLine(root);
 
-
-    cout<<endl;
+    cout << "TotalNodeNum:" << endl << getNodeNum(root) << endl;
+    cout << "Depth:" << endl << getDepth(root) << endl;
+    cout << "3rd-level Node Num:" << endl << getKthLevelNodeNum(root, 3) << endl;
+    cout << "LeafNodeNum:" << endl << getLeafNodeNum(root) << endl;
+    return 0;
 }
