@@ -46,6 +46,31 @@ LinkNode *reverse_list_recursive(LinkNode *head)
 	return h;
 }
 
+//链表相邻元素翻转，如a->b->c->d->e->f-g，翻转后变为：b->a->d->c->f->e->g
+LinkNode *inverse_pair(LinkNode *head)
+{
+	if (head == NULL || head->next == NULL)
+		return head;
+	LinkNode *pre = head;
+	LinkNode *curr = head->next;
+	LinkNode *next = curr->next;
+    LinkNode *newhead = head->next;
+
+	while(pre && pre->next)
+	{
+		curr = pre->next;
+		next = curr->next;
+		
+		curr->next = pre;
+        if(next != NULL)
+		    pre->next = next->next;
+        else
+            pre->next = NULL;
+        pre = next;
+	}
+	return newhead;
+}
+
 LinkNode *build_list(LinkNode *&head)
 {
 	LinkNode *temp = head;
