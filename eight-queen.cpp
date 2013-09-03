@@ -1,4 +1,4 @@
-/* n»ÊºóÎÊÌâµÄÉî¶ÈÓÅÏÈËã·¨ */
+/* nçš‡åé—®é¢˜çš„æ·±åº¦ä¼˜å…ˆç®—æ³• */
 #include <stack>
 #include <iostream>
 #include <string>
@@ -8,7 +8,7 @@
 #define STACK_INIT_SIZE 100
 #define STACK_INCREMENT 10
 
-#define M 20 //ÈİĞíÊäÈëµÄ×î´óµÄ»Êºó¸öÊı
+#define M 20 //å®¹è®¸è¾“å…¥çš„æœ€å¤§çš„çš‡åä¸ªæ•°
 
 using namespace std;
 
@@ -67,12 +67,12 @@ public:
 	int push(node n)
 	{
 		if (top - base >= stack_size) {
-			//Õ»Âú£¬×·¼Ó´æ´¢¿Õ¼ä
+			//æ ˆæ»¡ï¼Œè¿½åŠ å­˜å‚¨ç©ºé—´
 			base = (node *)realloc(base,
 				(stack_size + STACK_INCREMENT) * sizeof(node));
 			if (!base) {
 				printf("Memory realloc failed!\n");
-				exit(1); //´æ´¢·ÖÅäÊ§°Ü
+				exit(1); //å­˜å‚¨åˆ†é…å¤±è´¥
 			}
 			top = base + stack_size;
 			stack_size += STACK_INCREMENT;
