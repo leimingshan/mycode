@@ -1,6 +1,8 @@
 #include <iostream>
+#include <cstdlib>
 #include <stack>
 #include <queue>
+#include <algorithm>
 
 using namespace std;
 
@@ -251,6 +253,77 @@ bool cmpTreeStructure(TreeNode *root1, TreeNode *root2)
     return cmpTreeStructure(root1->left, root2->left) && cmpTreeStructure(root1->right, root2->right);
 }
 
+//This binary tree is an AVL tree or not
+bool isAVL(TreeNode *root, int &height)
+{
+    if (root == NULL) {
+        height = 0;
+        return true;
+    }
+    int leftHeight, rightHeight;
+    bool leftRe = isAVL(root->left, leftHeight);
+    bool rightRe = isAVL(root->right, rightHeight);
+
+    if (leftRe && rightRe && abs(leftHeight - rightHeight) <= 1) {
+        height = max(leftHeight, rightHeight) + 1;
+        return true;
+    } else {
+        height = max(leftHeight, rightHeight) + 1;
+        return false;
+    }
+}
+
+//Get the mirror of the binary tree
+TreeNode *Mirror(TreeNode *root)
+{
+    if (root == NULL)
+        return NULL;
+    TreeNode *left = Mirror(root->left);
+    TreeNode *right = Mirror(root->right);
+    root->left = right;
+    root->right = left;
+    return root;
+}
+
+//Lowest Common Ancestor of two different nodes
+//1.The node can be its own parent
+int lca(const TreeNode *root, const TreeNode *va, const TreeNode *vb, 
+        const TreeNode *&result)
+{
+    const int N = 2;
+    int left = root->left ? lca(root->left, va, vb, result) : 0;
+    if (left == N)
+        return N;
+
+    int right = root->right ? lca(root->right, va, vb, result) : 0;
+    if (right == N)
+        return N;
+
+    int mid = (root == va) + (root == vb);
+    int ret = left + right + mid;
+    if (ret == N)
+        result = root;
+    return ret;
+}
+//2. The node cannot be its own parent
+int lca2(const TreeNode *root, const TreeNode *va, const TreeNode *vb,
+         const TreeNode *parent, const TreeNode *&result)
+{
+    const int N = 2;
+    int left = root->left ? lca(root->left, va, vb, root, result) : 0;
+    if (left == N)
+        return N;
+
+    int right = root->right ? lca(root->right, va, vb, root, result) : 0;
+    if (right == N)
+        return N;
+
+    int mid = (root == va) + (root == vb);
+    int ret = left + right + mid;
+    if (ret == N)
+        result = (mid != 0 ? parent : root);
+    return ret;
+}
 
 //Test all of the functions above
 int main()
@@ -295,5 +368,8 @@ int main()
     cout << "Depth:" << endl << getDepth(root) << endl;
     cout << "3rd-level Node Num:" << endl << getKthLevelNodeNum(root, 3) << endl;
     cout << "LeafNodeNum:" << endl << getLeafNodeNum(root) << endl;
+    int height = 0;
+    cout << "isAVL:" << endl << isAVL(root, height) << endl;
+
     return 0;
 }
