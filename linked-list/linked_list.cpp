@@ -19,20 +19,22 @@ unsigned int get_list_length(LinkNode *head)
 
 LinkNode *reverse_list(LinkNode *head)
 {
-	LinkNode *p1 = NULL;
-	LinkNode *p2 = head;
+	if(head == NULL || head->next == NULL)
+		return head;
+
+	LinkNode *newhead = NULL;
+	LinkNode *current = head;
 	LinkNode *p;
-	if(head == NULL)
-		return NULL;
-	while(p2 != NULL)
+	
+	while(current != NULL)
 	{
-		p = p2->next;
-		p2->next = p1;
+		p = current->next;
+		current->next = newhead;
 		
-		p1 = p2;
-		p2 = p;
+		newhead = current;
+		current = p;
 	}
-	return p1;
+	return newhead;
 }
 
 LinkNode *reverse_list_recursive(LinkNode *head)
@@ -44,6 +46,29 @@ LinkNode *reverse_list_recursive(LinkNode *head)
 	p->next = head;
 	head->next = NULL;
 	return h;
+}
+
+//查找单链表中倒数第K个结点
+LinkNode *r_get_kth_node(LinkNode *head, unsigned int k) // 函数名前面的r代表反向
+{
+	//使用两个指针，保持两个指针的距离差是k-1
+	if (head == NULL || k == 0)
+		return NULL;
+
+	LinkNode *pAhead = head;
+	LinkNode *pBehind = head;
+
+	while (k > 1 && pAhead != NULL) {
+		pAhead = pAhead->next;
+		k--;
+	}
+	if (k > 1 || pAhead == NULL) // 结点个数小于k，返回NULL  
+		return NULL;
+	while (pAhead->next != NULL) {
+		pAhead = pAhead->next;
+		pBehind = pBehind->next;
+	}
+	return pBehind;
 }
 
 //链表相邻元素翻转，如a->b->c->d->e->f-g，翻转后变为：b->a->d->c->f->e->g
