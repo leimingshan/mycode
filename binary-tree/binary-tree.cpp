@@ -14,53 +14,53 @@ struct TreeNode {
 };
 
 //hash for inorder traverse
-int mapIndex[256];
-void mapToIndices(int inorder[], int n)
+int map_index[256];
+void MapToIndices(int inorder[], int n)
 {
     int i;
     for (i = 0; i < n; i++)
-        mapIndex[inorder[i]] = i;
+        map_index[inorder[i]] = i;
 }
 
 //Build BinaryTree
 //pre数组为先序遍历序列，注意在递归过程中pre起始位置是变化的。n为结点数目，offset为子树在中序中对应的开始位置。
-struct TreeNode* buildInorderPreorder(int pre[], int n, int offset)
+struct TreeNode* BuildInorderPreorder(int pre[], int n, int offset)
 {
     if (n == 0) return NULL;
     int rootVal = pre[0];
-    int i = mapIndex[rootVal] - offset;
+    int i = map_index[rootVal] - offset;
 
     struct TreeNode* root = new (struct TreeNode);
     root->value = rootVal;
-    root->left = buildInorderPreorder(pre+1, i, offset);
-    root->right = buildInorderPreorder(pre+i+1, n-i-1, offset+i+1);
+    root->left = BuildInorderPreorder(pre+1, i, offset);
+    root->right = BuildInorderPreorder(pre+i+1, n-i-1, offset+i+1);
     return root;
 }
 //根据后序遍历和中序遍历构建二叉树
-struct TreeNode *buildInorderPostorder(int post[], int n, int offset)
+struct TreeNode *BuildInorderPostorder(int post[], int n, int offset)
 {
     if (n == 0) return NULL;
     int rootVal = post[n-1];
-    int i = mapIndex[rootVal] - offset;  // the divider's index
+    int i = map_index[rootVal] - offset;  // the divider's index
 
     struct TreeNode* root = new (struct TreeNode);
-    root->left = buildInorderPostorder(post, i, offset);
-    root->right = buildInorderPostorder(post+i, n-i-1, offset+i+1);
+    root->left = BuildInorderPostorder(post, i, offset);
+    root->right = BuildInorderPostorder(post+i, n-i-1, offset+i+1);
     return root;
 }
 
 //Traverse
 //PreOrder
-void preOrder(TreeNode *root)
+void PreOrder(TreeNode *root)
 {
     if (root == NULL)
         return;
     cout << root->value << ' ';
-    preOrder(root->left);
-    preOrder(root->right);
+    PreOrder(root->left);
+    PreOrder(root->right);
 }
 
-void preOrderNonRecursive(TreeNode *root)
+void PreOrderNonRecursive(TreeNode *root)
 {
     //use a stack to implement preorder traverse of nonrecursive
     stack<TreeNode *> s;
@@ -82,16 +82,16 @@ void preOrderNonRecursive(TreeNode *root)
 }
 
 //InOrder
-void inOrder(TreeNode *root)
+void InOrder(TreeNode *root)
 {
     if (root == NULL)
         return;
-    inOrder(root->left);
+    InOrder(root->left);
     cout << root->value << ' ';
-    inOrder(root->right);
+    InOrder(root->right);
 }
 
-void inOrderNonRecursive(TreeNode *root)
+void InOrderNonRecursive(TreeNode *root)
 {
     if (root == NULL)
         return;
@@ -117,16 +117,16 @@ void inOrderNonRecursive(TreeNode *root)
 }
 
 //PostOrder
-void postOrder(TreeNode *root)
+void PostOrder(TreeNode *root)
 {
     if (root == NULL)
         return;
-    postOrder(root->left);
-    postOrder(root->right);
+    PostOrder(root->left);
+    PostOrder(root->right);
     cout << root->value << ' ';
 }
 
-void postOrderNonRecursive(TreeNode *root)
+void PostOrderNonRecursive(TreeNode *root)
 {
     //this will be very easy if you use 2 stacks
     if (!root) 
@@ -153,7 +153,7 @@ void postOrderNonRecursive(TreeNode *root)
 
 //LevelOrder
 //Print levels together
-void levelOrder(TreeNode *root)
+void LevelOrder(TreeNode *root)
 {
     if (root == NULL)
         return;
@@ -175,7 +175,7 @@ void levelOrder(TreeNode *root)
     cout << endl;
 }
 
-void levelOrderInLine(TreeNode *root)
+void LevelOrderInLine(TreeNode *root)
 {
     if (root == NULL)
         return;
@@ -201,45 +201,45 @@ void levelOrderInLine(TreeNode *root)
 }
 
 //Get binary tree node number
-int getNodeNum(TreeNode *root)
+int GetNodeNum(TreeNode *root)
 {
     if (root == NULL)
         return 0;
 
-    return getNodeNum(root->left) + getNodeNum(root->right) + 1;
+    return GetNodeNum(root->left) + GetNodeNum(root->right) + 1;
 }
 
 //Get tree depth
-int getDepth(TreeNode *root)
+int GetDepth(TreeNode *root)
 {
     if (root == NULL)
         return 0;
-    int ldepth = getDepth(root->left);
-    int rdepth = getDepth(root->right);
+    int ldepth = GetDepth(root->left);
+    int rdepth = GetDepth(root->right);
 
     return ldepth > rdepth ? (ldepth + 1) : (rdepth + 1);
 }
 
 //Get Kth level node number
-int getKthLevelNodeNum(TreeNode *root, int k)
+int GetKthLevelNodeNum(TreeNode *root, int k)
 {
     if (root == NULL || k < 1)
         return 0;
     if (k == 1)
         return 1;
-    int numLeft = getKthLevelNodeNum(root->left, k - 1);
-    int numRight = getKthLevelNodeNum(root->right, k - 1);
+    int numLeft = GetKthLevelNodeNum(root->left, k - 1);
+    int numRight = GetKthLevelNodeNum(root->right, k - 1);
     return numLeft + numRight;
 }
 
 //Get leaf node number
-int getLeafNodeNum(TreeNode *root)
+int GetLeafNodeNum(TreeNode *root)
 {
     if (root == NULL)
         return 0;
     if (root->left == NULL && root->right == NULL)
         return 1;
-    return getLeafNodeNum(root->left) + getLeafNodeNum(root->right);
+    return GetLeafNodeNum(root->left) + GetLeafNodeNum(root->right);
 }
 
 //Compare two binary trees if they have the same structure(ignor value)
@@ -254,15 +254,15 @@ bool cmpTreeStructure(TreeNode *root1, TreeNode *root2)
 }
 
 //This binary tree is an AVL tree or not
-bool isAVL(TreeNode *root, int &height)
+bool IsAVL(TreeNode *root, int &height)
 {
     if (root == NULL) {
         height = 0;
         return true;
     }
     int leftHeight, rightHeight;
-    bool leftRe = isAVL(root->left, leftHeight);
-    bool rightRe = isAVL(root->right, rightHeight);
+    bool leftRe = IsAVL(root->left, leftHeight);
+    bool rightRe = IsAVL(root->right, rightHeight);
 
     if (leftRe && rightRe && abs(leftHeight - rightHeight) <= 1) {
         height = max(leftHeight, rightHeight) + 1;
@@ -327,7 +327,7 @@ int lca2(const TreeNode *root, const TreeNode *va, const TreeNode *vb,
 
 //Get the node path according to the given sum
 //Use a deque to store current path
-void getNodePath(TreeNode *root, const int sum, int current_sum, deque<int> &dq)
+void GetNodePath(TreeNode *root, const int sum, int current_sum, deque<int> &dq)
 {
     if (root == NULL) //Only check for the root of the tree
         return;
@@ -346,19 +346,19 @@ void getNodePath(TreeNode *root, const int sum, int current_sum, deque<int> &dq)
     }
     dq.push_back(root->value);
     if (root->left)
-        getNodePath(root->left, sum, current_sum, dq);
+        GetNodePath(root->left, sum, current_sum, dq);
     if (root->right)
-        getNodePath(root->right, sum, current_sum, dq);
+        GetNodePath(root->right, sum, current_sum, dq);
     dq.pop_back();
     return;
 }
 
-void printNodePath(TreeNode *root, int sum)
+void PrintNodePath(TreeNode *root, int sum)
 {
     if (root == NULL)
         return;
     deque<int> dq;
-    getNodePath(root, sum, 0, dq);
+    GetNodePath(root, sum, 0, dq);
 }
 
 //Test all of the functions above
@@ -367,9 +367,9 @@ int main()
     int pre[] = {7, 10, 4, 3, 1, 2, 8, 11};
     int in[] = {4, 10, 3, 1, 7, 11, 8, 2};
     int n = sizeof(in) / sizeof(in[0]);
-    mapToIndices(in, n);
+    MapToIndices(in, n);
 
-    struct TreeNode* root = buildInorderPreorder(pre, n, 0);
+    struct TreeNode* root = BuildInorderPreorder(pre, n, 0);
     //Sample display
     cout << "The BinaryTree used in this program is:" << endl;
     cout << "              7    " << endl
@@ -381,34 +381,34 @@ int main()
          << "            1 11"  << endl;
     //Traverse
     cout << "PreOrder:" <<endl;
-    preOrder(root);
+    PreOrder(root);
     cout << endl;
-    preOrderNonRecursive(root);
+    PreOrderNonRecursive(root);
 
     cout << "InOrder:" <<endl;
-    inOrder(root);
+    InOrder(root);
     cout << endl;
-    inOrderNonRecursive(root);
+    InOrderNonRecursive(root);
     
     cout << "PostOrder:" <<endl;
-    postOrder(root);
+    PostOrder(root);
     cout << endl;
-    postOrderNonRecursive(root);
+    PostOrderNonRecursive(root);
 
     cout << "LevelOrder:" << endl;
-    levelOrder(root);
+    LevelOrder(root);
     cout << "LevelOrderInLine:" << endl;
-    levelOrderInLine(root);
+    LevelOrderInLine(root);
 
-    cout << "TotalNodeNum:" << endl << getNodeNum(root) << endl;
-    cout << "Depth:" << endl << getDepth(root) << endl;
-    cout << "3rd-level Node Num:" << endl << getKthLevelNodeNum(root, 3) << endl;
-    cout << "LeafNodeNum:" << endl << getLeafNodeNum(root) << endl;
+    cout << "TotalNodeNum:" << endl << GetNodeNum(root) << endl;
+    cout << "Depth:" << endl << GetDepth(root) << endl;
+    cout << "3rd-level Node Num:" << endl << GetKthLevelNodeNum(root, 3) << endl;
+    cout << "LeafNodeNum:" << endl << GetLeafNodeNum(root) << endl;
     int height = 0;
-    cout << "isAVL:" << endl << isAVL(root, height) << endl;
+    cout << "IsAVL:" << endl << IsAVL(root, height) << endl;
 
     cout << "The Node Path of sum 28:" << endl;
-    printNodePath(root, 28);
+    PrintNodePath(root, 28);
     
     return 0;
 }
