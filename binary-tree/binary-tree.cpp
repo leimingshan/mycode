@@ -310,11 +310,11 @@ int lca2(const TreeNode *root, const TreeNode *va, const TreeNode *vb,
          const TreeNode *parent, const TreeNode *&result)
 {
     const int N = 2;
-    int left = root->left ? lca(root->left, va, vb, root, result) : 0;
+    int left = root->left ? lca2(root->left, va, vb, root, result) : 0;
     if (left == N)
         return N;
 
-    int right = root->right ? lca(root->right, va, vb, root, result) : 0;
+    int right = root->right ? lca2(root->right, va, vb, root, result) : 0;
     if (right == N)
         return N;
 
@@ -323,6 +323,42 @@ int lca2(const TreeNode *root, const TreeNode *va, const TreeNode *vb,
     if (ret == N)
         result = (mid != 0 ? parent : root);
     return ret;
+}
+
+//Get the node path according to the given sum
+//Use a deque to store current path
+void getNodePath(TreeNode *root, const int sum, int current_sum, deque<int> &dq)
+{
+    if (root == NULL) //Only check for the root of the tree
+        return;
+    current_sum += root->value;
+    if (root->left == NULL && root->right == NULL) {
+        if (sum != current_sum)
+            return;
+        else {
+            //Print the node path
+            deque<int>::iterator it = dq.begin();
+            while (it != dq.end())
+                cout << *it++ << ' ';
+            cout << root->value << endl;
+            return;
+        }
+    }
+    dq.push_back(root->value);
+    if (root->left)
+        getNodePath(root->left, sum, current_sum, dq);
+    if (root->right)
+        getNodePath(root->right, sum, current_sum, dq);
+    dq.pop_back();
+    return;
+}
+
+void printNodePath(TreeNode *root, int sum)
+{
+    if (root == NULL)
+        return;
+    deque<int> dq;
+    getNodePath(root, sum, 0, dq);
 }
 
 //Test all of the functions above
@@ -371,5 +407,8 @@ int main()
     int height = 0;
     cout << "isAVL:" << endl << isAVL(root, height) << endl;
 
+    cout << "The Node Path of sum 28:" << endl;
+    printNodePath(root, 28);
+    
     return 0;
 }
