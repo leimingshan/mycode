@@ -1,9 +1,11 @@
-#Binary Tree - 二叉树
+#Binary Tree
+###In computer science, a binary tree is a tree data structure in which each node has at most two child nodes, usually distinguished as "left" and "right".
 
-####In computer science, a binary tree is a tree data structure in which each node has at most two child nodes, usually distinguished as "left" and "right".
-####在计算机科学中，二叉树是每个节点最多有两个子树的树结构。
-####通常子树被称作“左子树”（left subtree）和“右子树”（right subtree）。二叉树常被用于实现二叉查找树和二叉堆。
+#二叉树
+###在计算机科学中，二叉树是每个节点最多有两个子树的树结构。
+###通常子树被称作“左子树”（left subtree）和“右子树”（right subtree）。二叉树常被用于实现二叉查找树和二叉堆。
 
+***************
 在binary-tree.cpp中，列举了与二叉树有关的一些常见问题，包括各个功能函数的实现和功能测试；   
 通过相关的练习，可以很好的加深对二叉树这种非线性数据结构的理解，以及对递归调用的理解。
 
