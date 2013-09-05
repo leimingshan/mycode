@@ -296,4 +296,59 @@ void DeleteNode(ListNode *&head, ListNode *deleted)
 	return;
 }
 
-// 
+// Merge two sorted linked list
+// 已知两个单链表head1和head2 各自有序，把它们合并成一个链表依然有序
+// Recursive
+ListNode *MergeLinkedListRecursive(ListNode *head1, ListNode *head2)
+{
+	if (head1 == NULL)
+		return head2;
+	if (head2 == NULL)
+		return head1;
+
+	ListNode *merged_head;
+	if (head1->value < head2->value) {
+		merged_head = head1;
+		head1 = head1->next;
+	} else {
+		merged_head = head2;
+		head2 = head2->next;
+	}
+	merged_head->next = MergeLinkedListRecursive(head1, head2);
+	return merged_head;
+}
+
+// Non-recursive
+ListNode *MergeLinkedList(ListNode *head1, ListNode *head2)
+{
+	if (head1 == NULL)
+		return head2;
+	if (head2 == NULL)
+		return head1;
+
+	ListNode * merged_head;
+		if (head1->value < head2->value) {
+		merged_head = head1;
+		head1 = head1->next;
+	} else {
+		merged_head = head2;
+		head2 = head2->next;
+	}
+	merged_head->next = NULL;
+	ListNode *current_node = merged_head;
+	while (head1 != NULL && head2 != NULL) {
+		if (head1->value < head2->value) {
+			current_node->next = head1;
+			current_node = head1;
+			head1 = head1->next;
+			current_node->next = NULL;
+		} else {
+			current_node->next = head2;
+			current_node = head2;
+			head2 = head2->next;
+			current_node->next = NULL;
+		}
+	}
+	current_node->next = (head1 != NULL) ? head1 : head2;
+	return merged_head;
+}
