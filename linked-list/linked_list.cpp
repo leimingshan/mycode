@@ -3,12 +3,51 @@
 
 using namespace std;
 
-unsigned int get_list_length(LinkNode *head)
+ListNode *build_list(ListNode *&head)
+{
+	ListNode *temp = head;
+	int i;
+	for(i = 1; i < 12; i++)
+	{
+		temp->value = i;
+		temp->next = new ListNode;
+		temp = temp->next;
+	}
+	temp->value = i;
+	temp->next = NULL;
+	return head;
+}
+
+int destroy_list(ListNode *head)
+{
+	ListNode *p;
+	if(head == NULL)
+		return -1;
+		
+	while(head != NULL)
+	{
+		p = head->next;
+		delete head;
+		head = p;
+	}
+	return 0;
+}
+
+void print_list(ListNode *head)
+{
+	ListNode *temp = head;
+	for(temp = head; temp != NULL; temp = temp->next)
+		cout << temp->value <<' ';
+	cout << endl;
+	return;
+}
+
+unsigned int get_list_length(ListNode *head)
 {
     if(head == NULL)
         return 0;
     unsigned int len = 0;
-	LinkNode *temp = head;
+	ListNode *temp = head;
 	while(temp != NULL)
 	{
 		len++;
@@ -17,14 +56,14 @@ unsigned int get_list_length(LinkNode *head)
     return len;
 }
 
-LinkNode *reverse_list(LinkNode *head)
+ListNode *reverse_list(ListNode *head)
 {
 	if(head == NULL || head->next == NULL)
 		return head;
 
-	LinkNode *newhead = NULL;
-	LinkNode *current = head;
-	LinkNode *p;
+	ListNode *newhead = NULL;
+	ListNode *current = head;
+	ListNode *p;
 	
 	while(current != NULL)
 	{
@@ -37,49 +76,26 @@ LinkNode *reverse_list(LinkNode *head)
 	return newhead;
 }
 
-LinkNode *reverse_list_recursive(LinkNode *head)
+ListNode *reverse_list_recursive(ListNode *head)
 {
 	if(head == NULL || head->next == NULL)
 		return head;
-	LinkNode *p = head->next;
-	LinkNode *h = reverse_list_recursive(p);
+	ListNode *p = head->next;
+	ListNode *h = reverse_list_recursive(p);
 	p->next = head;
 	head->next = NULL;
 	return h;
 }
 
-//查找单链表中倒数第K个结点
-LinkNode *r_get_kth_node(LinkNode *head, unsigned int k) // 函数名前面的r代表反向
-{
-	//使用两个指针，保持两个指针的距离差是k-1
-	if (head == NULL || k == 0)
-		return NULL;
-
-	LinkNode *pAhead = head;
-	LinkNode *pBehind = head;
-
-	while (k > 1 && pAhead != NULL) {
-		pAhead = pAhead->next;
-		k--;
-	}
-	if (k > 1 || pAhead == NULL) // 结点个数小于k，返回NULL  
-		return NULL;
-	while (pAhead->next != NULL) {
-		pAhead = pAhead->next;
-		pBehind = pBehind->next;
-	}
-	return pBehind;
-}
-
 //链表相邻元素翻转，如a->b->c->d->e->f-g，翻转后变为：b->a->d->c->f->e->g
-LinkNode *inverse_pair(LinkNode *head)
+ListNode *inverse_pair(ListNode *head)
 {
 	if (head == NULL || head->next == NULL)
 		return head;
-	LinkNode *pre = head;
-	LinkNode *curr = head->next;
-	LinkNode *next = curr->next;
-    LinkNode *newhead = head->next;
+	ListNode *pre = head;
+	ListNode *curr = head->next;
+	ListNode *next = curr->next;
+    ListNode *newhead = head->next;
 
 	while(pre && pre->next)
 	{
@@ -96,41 +112,41 @@ LinkNode *inverse_pair(LinkNode *head)
 	return newhead;
 }
 
-LinkNode *build_list(LinkNode *&head)
+//查找单链表中倒数第K个结点
+ListNode *r_get_kth_node(ListNode *head, unsigned int k) // 函数名前面的r代表反向
 {
-	LinkNode *temp = head;
-	int i;
-	for(i = 1; i < 12; i++)
-	{
-		temp->value = i;
-		temp->next = new LinkNode;
-		temp = temp->next;
+	//使用两个指针，保持两个指针的距离差是k-1
+	if (head == NULL || k == 0) // 这里k的计数是从1开始的，若k为0或链表为空返回NULL
+		return NULL;
+
+	ListNode *pAhead = head;
+	ListNode *pBehind = head;
+
+	while (k > 1 && pAhead != NULL) { // 前面的指针先走到正向第k个结点
+		pAhead = pAhead->next;
+		k--;
 	}
-	temp->value = i;
-	temp->next = NULL;
-	return head;
+	if (k > 1 || pAhead == NULL) // 结点个数小于k，返回NULL  
+		return NULL;
+	while (pAhead->next != NULL) { // 前后两个指针一起向前走，直到前面的指针指向最后一个结点
+		pAhead = pAhead->next;
+		pBehind = pBehind->next;
+	}
+	return pBehind;
 }
 
-int destroy_list(LinkNode *head)
+ListNode *get_middle_node(ListNode *head)
 {
-	LinkNode *p;
-	if(head == NULL)
-		return -1;
-		
-	while(head != NULL)
-	{
-		p = head->next;
-		delete head;
-		head = p;
-	}
-	return 0;
-}
+	if (head == NULL || head->next == NULL) // 链表为空或只有一个结点，返回头指针
+		return head;
 
-void print_list(LinkNode *head)
-{
-	LinkNode *temp = head;
-	for(temp = head; temp != NULL; temp = temp->next)
-		cout << temp->value <<' ';
-	cout << endl;
-	return;
+	ListNode *pAhead = head;
+	ListNode *pBehind = head;
+
+	while (pAhead != NULL && pAhead->next != NULL) {
+		pAhead = pAhead->next->next;
+		pBehind = pBehind->next;
+	}
+
+	return pBehind;
 }
