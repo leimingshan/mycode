@@ -21,4 +21,7 @@ void RPrintList(ListNode *head);
 void RPrintListRecursive(ListNode *head);
 
 bool HasCircle(ListNode *head);
-ListNode* GetFirstNodeInCircle(ListNode *head);
+ListNode *GetFirstCommonNode(ListNode *head);
+ListNode *GetFirstNodeInCircle(ListNode *head);
+
+bool IsIntersected(ListNode * head1, ListNode * head2);
