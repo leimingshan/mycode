@@ -1,9 +1,10 @@
 #include <iostream>
+#include <stack>
 #include "linked_list.h"
 
 using namespace std;
 
-ListNode *build_list(ListNode *&head)
+ListNode *BuildList(ListNode *&head)
 {
 	ListNode *temp = head;
 	int i;
@@ -18,7 +19,7 @@ ListNode *build_list(ListNode *&head)
 	return head;
 }
 
-int destroy_list(ListNode *head)
+int DestroyList(ListNode *head)
 {
 	ListNode *p;
 	if(head == NULL)
@@ -33,7 +34,7 @@ int destroy_list(ListNode *head)
 	return 0;
 }
 
-void print_list(ListNode *head)
+void PrintList(ListNode *head)
 {
 	ListNode *temp = head;
 	for(temp = head; temp != NULL; temp = temp->next)
@@ -42,7 +43,7 @@ void print_list(ListNode *head)
 	return;
 }
 
-unsigned int get_list_length(ListNode *head)
+unsigned int GetListLength(ListNode *head)
 {
     if(head == NULL)
         return 0;
@@ -56,7 +57,7 @@ unsigned int get_list_length(ListNode *head)
     return len;
 }
 
-ListNode *reverse_list(ListNode *head)
+ListNode *ReverseList(ListNode *head)
 {
 	if(head == NULL || head->next == NULL)
 		return head;
@@ -76,19 +77,19 @@ ListNode *reverse_list(ListNode *head)
 	return newhead;
 }
 
-ListNode *reverse_list_recursive(ListNode *head)
+ListNode *ReverseListRecursive(ListNode *head)
 {
 	if(head == NULL || head->next == NULL)
 		return head;
 	ListNode *p = head->next;
-	ListNode *h = reverse_list_recursive(p);
+	ListNode *h = ReverseListRecursive(p);
 	p->next = head;
 	head->next = NULL;
 	return h;
 }
 
 //链表相邻元素翻转，如a->b->c->d->e->f-g，翻转后变为：b->a->d->c->f->e->g
-ListNode *inverse_pair(ListNode *head)
+ListNode *InversePair(ListNode *head)
 {
 	if (head == NULL || head->next == NULL)
 		return head;
@@ -113,7 +114,7 @@ ListNode *inverse_pair(ListNode *head)
 }
 
 //查找单链表中倒数第K个结点
-ListNode *r_get_kth_node(ListNode *head, unsigned int k) // 函数名前面的r代表反向
+ListNode *RGetKthNode(ListNode *head, unsigned int k) // 函数名前面的r代表反向
 {
 	//使用两个指针，保持两个指针的距离差是k-1
 	if (head == NULL || k == 0) // 这里k的计数是从1开始的，若k为0或链表为空返回NULL
@@ -135,7 +136,7 @@ ListNode *r_get_kth_node(ListNode *head, unsigned int k) // 函数名前面的r�
 	return pBehind;
 }
 
-ListNode *get_middle_node(ListNode *head)
+ListNode *GetMiddleNode(ListNode *head)
 {
 	if (head == NULL || head->next == NULL) // 链表为空或只有一个结点，返回头指针
 		return head;
@@ -149,4 +150,108 @@ ListNode *get_middle_node(ListNode *head)
 	}
 
 	return pBehind;
+}
+
+//从尾到头打印单链表
+//使用栈
+void RPrintList(ListNode *head)
+{
+	if (head == NULL)
+		return;
+	stack<ListNode *> s;
+	ListNode *node = head;
+	while (node != NULL) {
+		s.push(node);
+		node = node->next;
+	}
+	while (!s.empty()) {
+		cout << s.top()->value << ' ';
+		s.pop();
+	}
+	return;
+}
+//使用递归
+void RPrintListRecursive(ListNode *head)
+{
+	if (head == NULL)
+		return;
+	RPrintListRecursive(head->next);
+	cout << head->value << ' ';
+}
+
+//判断一个单链表中是否有环
+bool HasCircle(ListNode *head)
+{
+	ListNode * fast = head; // 快指针每次前进两步
+	ListNode * slow = head; // 慢指针每次前进一步
+	while(fast != NULL && fast->next != NULL)
+	{
+		fast = fast->next->next;
+		slow = slow->next;
+		if(slow == fast) // 相遇，存在环
+			return true;
+	}
+	return false;
+}
+
+//已知一个单链表中存在环，求进入环中的第一个节点
+ListNode* GetFirstNodeInCircle(ListNode * head)
+{
+	if(head == NULL || head->next == NULL)
+		return NULL;
+
+	ListNode * fast = head;
+	ListNode * slow = head;
+	while(fast != NULL && fast->next != NULL)
+	{
+		slow = slow->next;
+		fast = fast->next->next;
+		if(slow == fast)
+			break;
+	}
+	if(fast == NULL || fast->next == NULL)
+		return NULL;
+
+	// 将环中的此节点作为假设的尾节点，将它变成两个单链表相交问题
+	ListNode * assumed_tail = slow; 
+	ListNode * head1 = head;
+	ListNode * head2 = assumed_tail->next;
+
+	int len1 = 1;
+	ListNode * node1 = head1;
+	while(node1 != assumed_tail)
+	{
+		node1 = node1->next;
+		len1++;
+	}
+	
+	int len2 = 1;
+	ListNode * node2 = head2;
+	while(node2 != assumed_tail)
+	{
+		node2 = node2->next;
+		len2++;
+	}
+
+	node1 = head1;
+	node2 = head2;
+	// 先对齐两个链表的当前结点，使之到尾节点的距离相等
+	if(len1 > len2)
+	{
+		int k = len1 - len2;
+		while(k--)
+			node1 = node1->next;
+	}
+	else
+	{
+		int k = len2 - len1;
+		while(k--)
+			node2 = node2->next;
+	}
+	while(node1 != node2)
+	{
+		node1 = node1->next;
+		node2 = node2->next;
+	}
+    return node1;
 }

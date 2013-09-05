@@ -4,15 +4,21 @@ struct ListNode {
 };
 
 
-ListNode *build_list(ListNode *&head);
-int destroy_list(ListNode *head);
-void print_list(ListNode *head);
+ListNode *BuildList(ListNode *&head);
+int DestroyList(ListNode *head);
+void PrintList(ListNode *head);
 
-unsigned int get_list_length(ListNode *head);
+unsigned int GetListLength(ListNode *head);
 
-ListNode *reverse_list(ListNode *head);
-ListNode *reverse_list_recursive(ListNode *head);
+ListNode *ReverseList(ListNode *head);
+ListNode *ReverseListRecursive(ListNode *head);
 
-ListNode *inverse_pair(ListNode *head);
-ListNode *r_get_kth_node(ListNode *head, unsigned int k);
-ListNode *get_middle_node(ListNode *head);
+ListNode *InversePair(ListNode *head);
+ListNode *RGetKthNode(ListNode *head, unsigned int k);
+ListNode *GetMiddleNode(ListNode *head);
+
+void RPrintList(ListNode *head);
+void RPrintListRecursive(ListNode *head);
+
+bool HasCircle(ListNode *head);
+ListNode* GetFirstNodeInCircle(ListNode *head);
