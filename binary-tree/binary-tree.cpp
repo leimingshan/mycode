@@ -6,14 +6,14 @@
 
 using namespace std;
 
-//Define binary tree node
+// Define binary tree node
 struct TreeNode {
     int value;
     struct TreeNode *left;
     struct TreeNode *right;
 };
 
-//hash for inorder traverse
+// hash for inorder traverse
 int map_index[256];
 void MapToIndices(int inorder[], int n)
 {
@@ -22,8 +22,8 @@ void MapToIndices(int inorder[], int n)
         map_index[inorder[i]] = i;
 }
 
-//Build BinaryTree
-//pre数组为先序遍历序列，注意在递归过程中pre起始位置是变化的。n为结点数目，offset为子树在中序中对应的开始位置。
+// Build BinaryTree
+// pre数组为先序遍历序列，注意在递归过程中pre起始位置是变化的。n为结点数目，offset为子树在中序中对应的开始位置。
 struct TreeNode* BuildInorderPreorder(int pre[], int n, int offset)
 {
     if (n == 0) return NULL;
@@ -36,7 +36,7 @@ struct TreeNode* BuildInorderPreorder(int pre[], int n, int offset)
     root->right = BuildInorderPreorder(pre+i+1, n-i-1, offset+i+1);
     return root;
 }
-//根据后序遍历和中序遍历构建二叉树
+// 根据后序遍历和中序遍历构建二叉树
 struct TreeNode *BuildInorderPostorder(int post[], int n, int offset)
 {
     if (n == 0) return NULL;
@@ -49,8 +49,8 @@ struct TreeNode *BuildInorderPostorder(int post[], int n, int offset)
     return root;
 }
 
-//Traverse
-//PreOrder
+// Traverse
+// PreOrder
 void PreOrder(TreeNode *root)
 {
     if (root == NULL)
@@ -62,16 +62,16 @@ void PreOrder(TreeNode *root)
 
 void PreOrderNonRecursive(TreeNode *root)
 {
-    //use a stack to implement preorder traverse of nonrecursive
+    // use a stack to implement preorder traverse of nonrecursive
     stack<TreeNode *> s;
     s.push(root);
 
     while (!s.empty()) {
         TreeNode *temp = s.top();
-        //visit the node
+        // visit the node
         cout << temp->value << ' ';
         s.pop();
-        //watch out!!! push right first and then left
+        // watch out!!! push right first and then left
         if (temp->right != NULL)
             s.push(temp->right);
         if (temp->left != NULL)
@@ -81,7 +81,7 @@ void PreOrderNonRecursive(TreeNode *root)
     return;
 }
 
-//InOrder
+// InOrder
 void InOrder(TreeNode *root)
 {
     if (root == NULL)
@@ -116,7 +116,7 @@ void InOrderNonRecursive(TreeNode *root)
     cout << endl;
 }
 
-//PostOrder
+// PostOrder
 void PostOrder(TreeNode *root)
 {
     if (root == NULL)
@@ -128,7 +128,7 @@ void PostOrder(TreeNode *root)
 
 void PostOrderNonRecursive(TreeNode *root)
 {
-    //this will be very easy if you use 2 stacks
+    // this will be very easy if you use 2 stacks
     if (!root) 
         return;
 
@@ -151,8 +151,8 @@ void PostOrderNonRecursive(TreeNode *root)
     cout << endl;
 }
 
-//LevelOrder
-//Print levels together
+// LevelOrder
+// Print levels together
 void LevelOrder(TreeNode *root)
 {
     if (root == NULL)
@@ -175,6 +175,7 @@ void LevelOrder(TreeNode *root)
     cout << endl;
 }
 
+// Print each level for each line
 void LevelOrderInLine(TreeNode *root)
 {
     if (root == NULL)
@@ -200,7 +201,7 @@ void LevelOrderInLine(TreeNode *root)
     }
 }
 
-//Get binary tree node number
+// Get binary tree node number
 int GetNodeNum(TreeNode *root)
 {
     if (root == NULL)
@@ -209,7 +210,7 @@ int GetNodeNum(TreeNode *root)
     return GetNodeNum(root->left) + GetNodeNum(root->right) + 1;
 }
 
-//Get tree depth
+// Get tree depth
 int GetDepth(TreeNode *root)
 {
     if (root == NULL)
@@ -220,7 +221,7 @@ int GetDepth(TreeNode *root)
     return ldepth > rdepth ? (ldepth + 1) : (rdepth + 1);
 }
 
-//Get Kth level node number
+// Get Kth level node number
 int GetKthLevelNodeNum(TreeNode *root, int k)
 {
     if (root == NULL || k < 1)
@@ -232,7 +233,7 @@ int GetKthLevelNodeNum(TreeNode *root, int k)
     return numLeft + numRight;
 }
 
-//Get leaf node number
+// Get leaf node number
 int GetLeafNodeNum(TreeNode *root)
 {
     if (root == NULL)
@@ -242,7 +243,7 @@ int GetLeafNodeNum(TreeNode *root)
     return GetLeafNodeNum(root->left) + GetLeafNodeNum(root->right);
 }
 
-//Compare two binary trees if they have the same structure(ignor value)
+// Compare two binary trees if they have the same structure(ignor value)
 bool cmpTreeStructure(TreeNode *root1, TreeNode *root2)
 {
     if (root1 == NULL && root2 == NULL)
@@ -253,7 +254,7 @@ bool cmpTreeStructure(TreeNode *root1, TreeNode *root2)
     return cmpTreeStructure(root1->left, root2->left) && cmpTreeStructure(root1->right, root2->right);
 }
 
-//This binary tree is an AVL tree or not
+// This binary tree is an AVL tree or not
 bool IsAVL(TreeNode *root, int &height)
 {
     if (root == NULL) {
@@ -273,7 +274,7 @@ bool IsAVL(TreeNode *root, int &height)
     }
 }
 
-//Get the mirror of the binary tree
+// Get the mirror of the binary tree
 TreeNode *Mirror(TreeNode *root)
 {
     if (root == NULL)
@@ -285,8 +286,8 @@ TreeNode *Mirror(TreeNode *root)
     return root;
 }
 
-//Lowest Common Ancestor of two different nodes
-//1.The node can be its own parent
+// Lowest Common Ancestor of two different nodes
+// 1.The node can be its own parent
 int lca(const TreeNode *root, const TreeNode *va, const TreeNode *vb, 
         const TreeNode *&result)
 {
@@ -305,7 +306,7 @@ int lca(const TreeNode *root, const TreeNode *va, const TreeNode *vb,
         result = root;
     return ret;
 }
-//2. The node cannot be its own parent
+// 2. The node cannot be its own parent
 int lca2(const TreeNode *root, const TreeNode *va, const TreeNode *vb,
          const TreeNode *parent, const TreeNode *&result)
 {
@@ -325,18 +326,52 @@ int lca2(const TreeNode *root, const TreeNode *va, const TreeNode *vb,
     return ret;
 }
 
-//Get the node path according to the given sum
-//Use a deque to store current path
+// Max Distance of a binary tree between two node
+// 即二叉树中相距最远的两个节点之间的距离。
+// 递归解法：
+// 1. 如果二叉树为空，返回0，同时记录左子树和右子树的深度，都为0。
+// 2. 如果二叉树不为空，最大距离要么是左子树中的最大距离，要么是右子树中的最大距离，要么是左子树节点中到根节点的最大距离+右子树节点中到根节点的最大距离，同时记录左子树和右子树节点中到根节点的最大距离。
+struct NodeInfo {
+    int max_distance;
+    int max_depth;
+};
+
+NodeInfo GetMaxDistance(TreeNode *root)
+{
+    if (root == NULL) {
+        NodeInfo empty = {0, -1};
+        return empty;
+    }
+
+    NodeInfo lhs = GetMaxDistance(root->left);
+    NodeInfo rhs = GetMaxDistance(root->right);
+    NodeInfo result;
+
+    result.max_distance = max(max(lhs.max_distance, rhs.max_distance), lhs.max_depth + rhs.max_depth + 2);
+    result.max_depth = max(lhs.max_depth + 1, rhs.max_depth + 1);
+    return result;
+}
+
+int GetTreeDistance(TreeNode *root)
+{
+    if (root == NULL)
+        return 0;
+    NodeInfo re = GetMaxDistance(root);
+    return re.max_distance;
+}
+
+// Get the node path according to the given sum
+// Use a deque to store current path
 void GetNodePath(TreeNode *root, const int sum, int current_sum, deque<int> &dq)
 {
-    if (root == NULL) //Only check for the root of the tree
+    if (root == NULL) // Only check for the root of the tree
         return;
     current_sum += root->value;
     if (root->left == NULL && root->right == NULL) {
         if (sum != current_sum)
             return;
         else {
-            //Print the node path
+            // Print the node path
             deque<int>::iterator it = dq.begin();
             while (it != dq.end())
                 cout << *it++ << ' ';
@@ -361,7 +396,7 @@ void PrintNodePath(TreeNode *root, int sum)
     GetNodePath(root, sum, 0, dq);
 }
 
-//Test all of the functions above
+// Test all of the functions above
 int main()
 {
     int pre[] = {7, 10, 4, 3, 1, 2, 8, 11};
@@ -370,7 +405,7 @@ int main()
     MapToIndices(in, n);
 
     struct TreeNode* root = BuildInorderPreorder(pre, n, 0);
-    //Sample display
+    // Sample display
     cout << "The BinaryTree used in this program is:" << endl;
     cout << "              7    " << endl
          << "            /   \\ " << endl
@@ -379,7 +414,7 @@ int main()
          << "         4 3   8 "   << endl
          << "            \\  /"   <<endl
          << "            1 11"  << endl;
-    //Traverse
+    // Traverse
     cout << "PreOrder:" <<endl;
     PreOrder(root);
     cout << endl;
@@ -410,5 +445,7 @@ int main()
     cout << "The Node Path of sum 28:" << endl;
     PrintNodePath(root, 28);
     
+    cout << "The Max Distance:" << endl << GetTreeDistance(root) << endl;
+
     return 0;
 }
