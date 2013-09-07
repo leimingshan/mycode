@@ -80,6 +80,38 @@ bool GetMaxMinNum(int *a, int len, int &max, int &min)
     return true;
 }
 
+// 2SUM Problem -- Given the sum, find two numbers
+int cmp (const void *a , const void *b)
+{ 
+    return *(int *)a - *(int *)b;
+}
+
+bool Sum2Num(int *a, int len, int sum, int &num1, int &num2)
+{
+    if (a == NULL || len == 0)
+        return false;
+    qsort(a, len, sizeof(a[0]), cmp);
+    int i = 0, j = len -1;
+    while (i < j) {
+        if ((a[i] + a[j]) < sum)
+            i++;
+        else if ((a[i] + a[j]) > sum)
+            j--;
+        else {
+            num1 = a[i];
+            num2 = a[j];
+            return true;
+        }
+    }
+    return false;
+}
+
+// 3SUM Problem -- Find if there are 3 integers a, b, c summing to 0
+bool Sum3NumTo0(int *a, int len, int &num1, int &num2, int &num3)
+{
+    
+}
+
 int main()
 {
     InitArray(a, COUNT_MAX);
@@ -98,6 +130,13 @@ int main()
         a[i] -= 50;
     cout << "Array after - 50:" << endl;
     PrintArray(a, COUNT_MAX);
+
+    int num1, num2;
+    cout << "The sum is " << a[0] + a[COUNT_MAX - 4] << ':' << endl;
+    if (Sum2Num(a, COUNT_MAX, a[0] + a[COUNT_MAX -4], num1, num2))
+        cout << num1 << ' ' << num2 << endl;
+    else
+        cout << "False";
 
     return 0;
 }
