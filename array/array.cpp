@@ -109,7 +109,23 @@ bool Sum2Num(int *a, int len, int sum, int &num1, int &num2)
 // 3SUM Problem -- Find if there are 3 integers a, b, c summing to 0
 bool Sum3NumTo0(int *a, int len, int &num1, int &num2, int &num3)
 {
-    
+    qsort(a, len, sizeof(a[0]), cmp);
+    for (int i = 0; i < len -3; i++) {
+        num1 = a[i];
+        int k = i + 1;
+        int l = len - 1;
+        while (k < l) {
+            num2 = a[k];
+            num3 = a[l];
+            if (num1 + num2 + num3 == 0)
+                return true;
+            else if (num1 + num2 + num3 < 0)
+                k++;
+            else
+                l--;
+        }
+    }
+    return false;
 }
 
 int main()
@@ -136,7 +152,19 @@ int main()
     if (Sum2Num(a, COUNT_MAX, a[0] + a[COUNT_MAX -4], num1, num2))
         cout << num1 << ' ' << num2 << endl;
     else
-        cout << "False";
+        cout << "False" << endl;
+
+    InitArray(a, COUNT_MAX);
+    cout << "Array:" << endl;
+    for (int i = 0; i < COUNT_MAX; i++)
+        a[i] -= 50;
+    PrintArray(a, COUNT_MAX);
+    int num3;
+    cout << "The sum of these 3 numbers is 0:" << endl;
+    if (Sum3NumTo0(a, COUNT_MAX, num1, num2, num3))
+        cout << num1 << ' ' << num2 << ' ' << num3 << endl;
+    else
+        cout << "False" << endl;
 
     return 0;
 }
