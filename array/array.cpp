@@ -10,7 +10,7 @@ int a[COUNT_MAX];
 
 // 注：以下函数主要偏重于方法的实现，故不再考虑复杂的错误处理。
 // 例如数组名作为指针参数传入的时候，不再判断为NULL的情况，以及函数过程中错误的情况。
-// 又例如GetMaxMin函数，结果通过参数传引用传递，则返回值可以返回函数执行状况，这里也不再详细考虑。
+// 又例如GetMaxMin函数，结果通过参数传引用传递，则返回值可以返回函数执行状况，这里不再详述。这些程序设计的技巧请读者自己考虑。
 // 即默认a是定义好的数组，且定义好了数组的大小。
 
 void InitArray(int *a, int len)
@@ -45,13 +45,19 @@ int Sum(int *a, int len)
         re += a[i];
     return re;
 }
+
+// Get sum by using recursive method
 int SumRecursive(int *a, int len)
 {
     return (len == 0) ? 0 : a[len - 1] + SumRecursive(a, len -1);
 }
 
-void GetMaxMinNum(int *a, int len, int &max, int &min)
+// Get both max and min value of the array in just one traversal
+bool GetMaxMinNum(int *a, int len, int &max, int &min)
 {
+    if (a == NULL || len == 0)
+        return false;
+
     if (len & 1) // 奇数个元素
         max = min = a[0];
     else {
@@ -71,6 +77,7 @@ void GetMaxMinNum(int *a, int len, int &max, int &min)
                 max = a[i + 1];
         }
     }
+    return true;
 }
 
 int main()
@@ -86,6 +93,11 @@ int main()
     int max_num, min_num;
     GetMaxMinNum(a, COUNT_MAX, max_num, min_num);
     cout << "MaxMin: " << max_num << ' ' << min_num << endl;
+
+    for (int i = 0; i < COUNT_MAX; i++)
+        a[i] -= 50;
+    cout << "Array after - 50:" << endl;
+    PrintArray(a, COUNT_MAX);
 
     return 0;
 }
