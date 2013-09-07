@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
+#include <algorithm>
 
 #define COUNT_MAX 32
 using namespace std;
@@ -51,10 +52,26 @@ int SumRecursive(int *a, int len)
 
 void GetMaxMinNum(int *a, int len, int &max, int &min)
 {
-
+    if (len & 1) // 奇数个元素
+        max = min = a[0];
+    else {
+        max = a[0] > a[1] ? a[0] : a[1];
+        min = a[0] > a[1] ? a[1] : a[0];
+    }
+    for (int i = 2; i < len; i += 2) {
+        if (a[i] > a[i + 1]) {
+            if (a[i] > max)
+                max = a[i];
+            if (a[i + 1] < min)
+                min = a[i + 1];
+        } else {
+            if (a[i] < min)
+                min = a[i];
+            if (a[i + 1] > max)
+                max = a[i + 1];
+        }
+    }
 }
-
-
 
 int main()
 {
@@ -65,6 +82,10 @@ int main()
     cout << "Max: " << GetMaxNum(a, COUNT_MAX) << endl;
     cout << "Sum: " << Sum(a, COUNT_MAX) << endl;
     cout << "SumRecursive: " << SumRecursive(a, COUNT_MAX) << endl;
+
+    int max_num, min_num;
+    GetMaxMinNum(a, COUNT_MAX, max_num, min_num);
+    cout << "MaxMin: " << max_num << ' ' << min_num << endl;
 
     return 0;
 }
