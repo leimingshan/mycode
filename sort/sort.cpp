@@ -244,7 +244,7 @@ void operate(long a[], long n)
 	cout << "请选择排序算法：";
 	cin >> ch;
 	switch(ch){
-	case '1':
+		case '1':
 		{
 			cout<<endl;
 			cout<<"您选择的是插入排序"<<endl;
@@ -268,7 +268,7 @@ void operate(long a[], long n)
 			break;
 		}
 
-	case '2':
+		case '2':
 		{
 			cout<<endl;
 			cout<<"您选择的是希尔排序"<<endl;
@@ -292,7 +292,7 @@ void operate(long a[], long n)
 			break;
 		}
 
-	case '3':
+		case '3':
 		{
 			cout<<endl;
 			cout<<"您选择的是冒泡排序"<<endl;
@@ -317,7 +317,7 @@ void operate(long a[], long n)
 		}
 
 
-	case '4':
+		case '4':
 		{
 			cout<<endl;
 			cout<<"您选择的是快速排序"<<endl;
@@ -341,7 +341,7 @@ void operate(long a[], long n)
 			break;
 		}
 
-	case '5':
+		case '5':
 		{
 			cout<<endl;
 			cout<<"您选择的是简单选择排序"<<endl;
@@ -364,13 +364,15 @@ void operate(long a[], long n)
 			operate(a, n);
 			break;
 		}
-	default:
+
+		default:
 		{
 			cout << "输入错误，请选择正确的操作！" << endl;
 			operate(a, n);
 			break;
 		}
-	case '0':
+
+		case '0':
 		{
 			cout<<"程序已退出"<<endl;
 			break;
@@ -378,6 +380,7 @@ void operate(long a[], long n)
 	}
 
 }
+
 //------------------------------------------------------------------------------
 //导航菜单函数
 //------------------------------------------------------------------------------
@@ -405,9 +408,8 @@ void Rand()
 	long *a = new long [n+1];
 	srand((unsigned long)time(NULL));//产生一个以当前时间开始的随机种子
 	for (long i=1; i<=n; i++)
-	{
 		a[i] = rand() % (n * 10);//n为最大值,其随机域为0~n-1
-	} 
+	
 	DaoHang();
 	print_array(a,n);
 	operate(a, n);
@@ -437,19 +439,18 @@ loop:
 	cout<<"1:输入数据"<<endl<<"2:随机生成数据"<<endl;
 	int x;
 	cin>>x;
-	switch(x)
-	{
-	case 2:{
-		Rand();
-		break;
-		   }
-	case 1:{
-		HandInput();
-		break;
-		   }
-	default:
-		cout<<"输入错误,请重新输入!"<<endl;
-		goto loop;
+	switch(x) {
+		case 2: {
+			Rand();
+			break;
+		}
+		case 1: {
+			HandInput();
+			break;
+		}
+		default:
+			cout<<"输入错误,请重新输入!"<<endl;
+			goto loop;
 	}
 
 	return 0;
