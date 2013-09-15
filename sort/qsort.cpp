@@ -3,6 +3,7 @@
 #include <algorithm>
 
 #define COUNT_MAX 32
+
 using namespace std;
 
 int a[COUNT_MAX];
