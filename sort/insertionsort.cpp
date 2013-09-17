@@ -27,7 +27,7 @@ int main()
 
     InsertionSort(arr, COUNT_MAX);
 
-    cout << "Array Afer Qsort:" << endl;
+    cout << "Array Afer InsertionSort:" << endl;
     PrintArray(arr, COUNT_MAX);
 
     return 0;

@@ -30,7 +30,8 @@ int main()
 
     BubbleSort(arr, COUNT_MAX);
 
-    cout << "Array Afer Qsort:" << endl;
+    cout << "Array Afer BubbleSort:" << endl;
     PrintArray(arr, COUNT_MAX);
+    
     return 0;
 }
