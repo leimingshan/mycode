@@ -1,27 +1,8 @@
+#include "array.h"
 #include <iostream>
-#include <cstdlib>
 #include <cmath>
 
-#define COUNT_MAX 32
-
 using namespace std;
-
-int a[COUNT_MAX];
-
-void InitArray(int *a, int len)
-{
-    srand(time(NULL));
-
-    for (int i = 0; i < len; i++)
-        a[i] = rand() % 100 + 1;
-}
-
-void PrintArray(int *a, int len)
-{
-    for (int i = 0; i < len; i++)
-        cout << a[i] << ' ';
-    cout << endl;
-}
 
 // heap index from 0
 inline int parent(int i)
@@ -108,13 +89,14 @@ void HeapSort(int A[], int heap_size)
 
 int main()
 {
-    InitArray(a, COUNT_MAX);
+    InitArray(arr, COUNT_MAX);
     cout << "Array:" << endl;
-    PrintArray(a, COUNT_MAX);
+    PrintArray(arr, COUNT_MAX);
 
-    HeapSort(a, COUNT_MAX);
+    HeapSort(arr, COUNT_MAX);
 
-    PrintArray(a, COUNT_MAX);
+    cout << "Array After HeapSort:" << endl;
+    PrintArray(arr, COUNT_MAX);
 
     return 0;
 }

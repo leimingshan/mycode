@@ -1,27 +1,8 @@
+#include "array.h"
 #include <iostream>
-#include <cstdlib>
 #include <algorithm>
 
-#define COUNT_MAX 32
-
 using namespace std;
-
-int a[COUNT_MAX];
-
-void InitArray(int *a, int len)
-{
-    srand(time(NULL));
-
-    for (int i = 0; i < len; i++)
-        a[i] = rand() % 100 + 1;
-}
-
-void PrintArray(int *a, int len)
-{
-    for (int i = 0; i < len; i++)
-        cout << a[i] << ' ';
-    cout << endl;
-}
 
 //qsort -- quick sort
 int partition(int *a, int p, int r)
@@ -51,15 +32,17 @@ void qsort(int *a, int p, int r)
         qsort(a, q + 1, r);
     }
 }
+
 int main()
 {
-    InitArray(a, COUNT_MAX);
+    InitArray(arr, COUNT_MAX);
     cout << "Array:" << endl;
-    PrintArray(a, COUNT_MAX);
+    PrintArray(arr, COUNT_MAX);
 
-    qsort(a, 0, COUNT_MAX - 1);
+    qsort(arr, 0, COUNT_MAX - 1);
 
-    PrintArray(a, COUNT_MAX);
+    cout << "Array Afer Qsort:" << endl;
+    PrintArray(arr, COUNT_MAX);
 
     return 0;
 }
